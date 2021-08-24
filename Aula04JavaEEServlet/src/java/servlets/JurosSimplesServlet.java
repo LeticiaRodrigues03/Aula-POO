@@ -47,14 +47,17 @@ public class JurosSimplesServlet extends HttpServlet {
             
             try{
                 double vp = Double.parseDouble(request.getParameter("vp"));
+                out.println("<h4><b>Valor Presente</b>: R$ "+vp+"</h4>");
                 double j = Double.parseDouble(request.getParameter("j"));
+                out.println("<h4><b>Juros</b>: "+j+" %</h4>");
                 int n = Integer.parseInt(request.getParameter("n"));
+                out.println("<h4><b>Prazo</b>: "+n+" meses</h4>");
                 
                 
                 j = j /100;
                 double vf = vp*(1+j*n);
                 
-                out.println("<h4><b>O Valor Final é de </b>: R$ "+vf+"</h4>");
+                out.println("<h3><b>O Valor Final é de </b>: R$ "+vf+"</h3>");
                 
             }catch(Exception ex){    
                  out.println("<p style = 'color:red'>"+ex.getMessage()+"</p>");

@@ -43,13 +43,16 @@ public class JurosCompostoServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>JavaEE</h1>");
             out.println("<h2>Servlets</h2>");
-            out.println("<h3>Resultado Juros Composto</h3>");
+            out.println("<h2>Resultado Juros Composto</h2>");
             
             
             try{
                 double vp = Double.parseDouble(request.getParameter("vp"));
+                out.println("<h4><b>Valor Presente</b>: "+vp+"</h4>");
                 double j = Double.parseDouble(request.getParameter("j"));
+                out.println("<h4><b>Juros</b>: "+j+" %</h4>");
                 double n = Integer.parseInt(request.getParameter("n"));
+                out.println("<h4><b>Prazo</b>: "+n+" meses </h4>");
                 
                 j = j /100;
                 j = 1 + j;
@@ -57,7 +60,7 @@ public class JurosCompostoServlet extends HttpServlet {
                 DecimalFormat deci = new DecimalFormat("0.000");
                 double vf = vp*e;
                 
-                out.println("<h4><b>O Valor Final é de </b>: R$ "+(deci.format(vf))+"</h4>");
+                out.println("<h3><b>O Valor Final é de </b>: R$ "+(deci.format(vf))+"</h3>");
                 
             }catch(Exception ex){    
                  out.println("<p style = 'color:red'>"+ex.getMessage()+"</p>");
