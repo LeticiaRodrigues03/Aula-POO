@@ -1,0 +1,40 @@
+<%-- any content can be specified here e.g.: --%>
+<%@page import="java.util.Random"%>
+<%@ page pageEncoding="UTF-8" %>
+<h2>Letícia Rodrigues</h2>
+<%
+    int num,i,j;
+    int[] maximo = new int [6];
+    Random r = new Random();
+    if(request.getParameter("session-login") != null){
+        session.setAttribute("session-name", request.getParameter("session-name"));
+        
+        for(i=0; i<maximo.length;i++){
+            num = r.nextInt(60) + 1;
+            for(j=0; j<maximo.length; j++){
+                if(num == maximo[j] && j != i){
+                    num = r.nextInt(60) + 1;
+                }else{
+                    maximo[i] = num;
+                }
+            }
+        }
+    }else if(request.getParameter("session-logout") != null){
+        session.removeAttribute("session-name");
+    }
+    String sessionName = (String) session.getAttribute("session-name");
+%>
+<form>
+    <%if(sessionName == null){%>
+    <input type="text" name="session-name" placeholder="Entre com seu nome">
+    <input type="submit" name="session-login" value="Entrar">
+    
+    <%}else{%>
+        Bem vindo(a), <%=sessionName%>
+        <br>
+        <a href="index.jsp">Início</a>
+        <a href="Leticia.jsp">Página Letícia</a>
+        <a href="Leticia-dica-megasena.jsp">Leticia dica megasena</a>
+        <input type="submit" name="session-logout" value="Sair">
+    <%}%>
+</form>
