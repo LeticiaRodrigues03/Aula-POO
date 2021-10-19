@@ -13,25 +13,22 @@
     </head>
     <body>
         <%@include file="WEB-INF/jspf/header.jspf" %>
-        <%if(sessionName != null){%>
-            <h3>Dica Megasena</h3>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Numeros da Sorte</th>
-                    </tr>
-                </thead>
-                <%for(i=0;i<maximo.length; i++){%>
-                    <tbody>
-                        <tr>
-                            <td><%out.println(maximo[i]);%></td>
-                        </tr>
-                    </tbody>
-                <%}%>
-            </table>
-        <%}else{%>
-            <div style="color: red">Você não possui permissão para acessar este conteúdo</div>
-        <%}%>
+        <h3>Dica Megasena</h3>
         
+        <%if(sessionName == null){%>
+            <div style="color: red">Você não possui permissão para acessar este conteúdo</div>
+        <%}else if(authNumbers != null){%>
+           <table border="1">
+                <tr>
+                    <th>Numero</th>                
+                </tr>
+                <%for(int n: authNumbers){%>
+                    <tr>
+                        <td><%=n%></td>
+                    </tr>
+                <%}%>
+            </table>    
+        <%}%>
+
     </body>
 </html>

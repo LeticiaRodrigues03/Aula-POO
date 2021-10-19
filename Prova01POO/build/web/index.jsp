@@ -13,19 +13,18 @@
     </head>
     <body>
         <%@include file="WEB-INF/jspf/header.jspf" %>
-        <h3>Início</h3>
-        <%if(sessionName == null){%>
-        <div>Nenhum usuário logado</div>
-        <%}else{%>
-        <table border="1">
-            <tr>
-                <td>Nome de Usuário</td>
-            </tr>
-            
-            <tr>
-                <td><%=sessionName%></td>
-            </tr>
-        </table>
+        <h3>Páina inicial</h3>
+        <h2>Sessões: <%= sessions%></h2>
+        <% if(sessionName != null && sessionList != null){%>
+        <ul>
+            <%for (String sessionNome: sessionList){%>
+            <li><%= sessionNome%></li>
+            <%}%>
+        </ul>
         <%}%>
+        
+        
+        
+     
     </body>
 </html>

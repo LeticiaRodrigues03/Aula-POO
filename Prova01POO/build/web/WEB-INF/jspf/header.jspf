@@ -1,40 +1,59 @@
 <%-- any content can be specified here e.g.: --%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Random"%>
 <%@ page pageEncoding="UTF-8" %>
 <h2>Letícia Rodrigues</h2>
 <%
-    int num,i,j;
-    int[] maximo = new int [6];
-    Random r = new Random();
+    ArrayList<Integer> authNumbers = (ArrayList) session.getAttribute("auth-numbers");
+    ArrayList<String> sessionList = (ArrayList) application.getAttribute("sessionList");
     if(request.getParameter("session-login") != null){
-        session.setAttribute("session-name", request.getParameter("session-name"));
-        
-        for(i=0; i<maximo.length;i++){
-            num = r.nextInt(60) + 1;
-            for(j=0; j<maximo.length; j++){
-                if(num == maximo[j] && j != i){
-                    num = r.nextInt(60) + 1;
-                }else{
-                    maximo[i] = num;
-                }
+        String userName = request.getParameter("session-name");
+        session.setAttribute("session-name", userName);
+        authNumbers = new ArrayList<>();
+        while(authNumbers.size() < 6){
+            int n = ((int) (Math.random()*59)) + 1;
+            if(!authNumbers.contains(n)){
+                authNumbers.add(n);
             }
         }
+        session.setAttribute("auth-numbers", authNumbers);
+        if(sessionList == null){
+            sessionList = new ArrayList();
+            sessionList.add(userName);
+        }else{
+            sessionList.add(userName);
+        }
+        application.setAttribute("sessionList", sessionList);
+        
+        
+        response.sendRedirect(request.getRequestURI());
     }else if(request.getParameter("session-logout") != null){
+        if(sessionList != null){
+            sessionList.remove(session.getAttribute("session-name"));
+            application.setAttribute("sessionList", sessionList);
+        }
         session.removeAttribute("session-name");
+        session.removeAttribute("auth-numbers");
+        response.sendRedirect(request.getRequestURI());
     }
     String sessionName = (String) session.getAttribute("session-name");
-%>
-<form>
-    <%if(sessionName == null){%>
-    <input type="text" name="session-name" placeholder="Entre com seu nome">
-    <input type="submit" name="session-login" value="Entrar">
     
+    int sessions = 0;
+    if(sessionList != null){
+        sessions = sessionList.size();
+    }
+%>
+<h1>LetíciaApp</h1>
+<form>
+    <a href="index.jsp">Início</a>
+    <a href="Leticia.jsp">Página Letícia</a>
+    <a href="Leticia-dica-megasena.jsp">Leticia dica megasena</a>
+    
+    <%if(sessionName == null){%>
+        <input type="text" name="session-name" placeholder="Entre com seu nome">
+        <input type="submit" name="session-login" value="Entrar">
     <%}else{%>
         Bem vindo(a), <%=sessionName%>
-        <br>
-        <a href="index.jsp">Início</a>
-        <a href="Leticia.jsp">Página Letícia</a>
-        <a href="Leticia-dica-megasena.jsp">Leticia dica megasena</a>
         <input type="submit" name="session-logout" value="Sair">
     <%}%>
 </form>
